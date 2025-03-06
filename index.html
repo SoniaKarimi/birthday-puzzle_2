@@ -77,6 +77,16 @@ button:active {
             left: 50%;
             transform: translate(-50%, -50%) scaleX(1);
             display: none; }
+        #heart-text {
+            position: absolute;
+            top: 58%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 60px; /* می‌تونی بزرگ‌تر/کوچک‌تر کنی */
+            font-family: 'Great Vibes', cursive;
+            color: red;
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -87,6 +97,7 @@ button:active {
     <button onclick="checkAnswer()">OK</button>
     <audio id="birthdaySong" src="15.mp3"></audio>
     <div id="heart-container" style="display: none;"></div>
+    <span id="heart-text"></span>
     <h2 id="loveText">I Love You</h2>
 
     <script>
