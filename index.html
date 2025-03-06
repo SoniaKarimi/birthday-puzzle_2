@@ -6,7 +6,15 @@
     <title>Birthday Puzzle</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
-        body { text-align: center; background-color: #111; color: white; }
+        body { text-align: center;
+    background-color: #111;
+    color: white;
+    min-height: 100vh;  /* پس‌زمینه حداقل ارتفاع کل صفحه رو بگیره */
+    margin: 0;  /* حذف مارجین‌های اضافی */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;  /* وسط چین کردن محتوا */
+    align-items: center; }
         canvas { display: block; margin: auto; }
         #inputBox { display: none; margin-top: 10px; }
     </style>
