@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday Puzzle</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        body { text-align: center; background-color: #111; color: white; }
+        canvas { display: block; margin: auto; }
+        #inputBox { display: none; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <h1> Surprise!🎂 </h1>
+    <div id="scene-container"></div>
+    <p id="equation">(20 - 5) * 2 + 1995 = ?</p>
+    <input type="text" id="answer" placeholder="جواب را وارد کنید">
+    <button onclick="checkAnswer()">بررسی</button>
+    <audio id="birthdaySong" src="15.mp3"></audio> <!-- مسیر فایل آهنگ -->
+    
+    <script>
+        let scene = new THREE.Scene();
+        let camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+        let renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth * 0.8, window.innerHeight * 0.6);
+        document.getElementById("scene-container").appendChild(renderer.domElement);
+
+        let geometry = new THREE.BoxGeometry();
+        let material = new THREE.MeshBasicMaterial({ color: 0x44aa88, transparent: true, opacity: 0.5, wireframe: true });
+        let cube = new THREE.Mesh(geometry, material);
+        scene.add(cube);
+        camera.position.z = 2;
+
+        function animate() {
+            requestAnimationFrame(animate);
+            cube.rotation.x += 0.01;
+            cube.rotation.y += 0.01;
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        function checkAnswer() {
+            let answer = document.getElementById("answer").value;
+            console.log("Entered answer: ", answer);  // چاپ جواب وارد شده
+            if (answer == "2005") {
+                document.getElementById("birthdaySong").play();
+                alert("تبریک! 🎉 آهنگ در حال پخش است!");
+            } else {
+                alert("جواب نادرست است. دوباره امتحان کن!");
+            }
+        }
+
+        // اضافه کردن رویداد برای فشردن Enter
+        document.getElementById("answer").onkeypress = function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();  // جلوگیری از ارسال فرم
+                checkAnswer();  // اجرای تابع بررسی جواب
+            }
+        };
+
+        // اضافه کردن رویداد برای کلیک دکمه
+        document.querySelector("button").addEventListener("click", checkAnswer);
+    </script>
+</body>
+</html>
