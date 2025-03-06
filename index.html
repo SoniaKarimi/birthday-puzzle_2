@@ -6,9 +6,10 @@
     <title>Birthday Puzzle</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
-        /* این قسمت پس‌زمینه‌ی کامل صفحه رو تنظیم می‌کنه */
+        /* تضمین می‌کنه که پس‌زمینه کل صفحه رو بگیره */
         html, body {
-            height: 100%; /* پس‌زمینه تا انتهای صفحه کشیده می‌شود */
+            width: 100%;
+            height: 100vh; /* تغییر به 100vh که توی موبایل هم درست کار کنه */
             margin: 0;
             padding: 0;
             background-color: #111;
@@ -17,9 +18,9 @@
             flex-direction: column;
             justify-content: center; /* وسط چین کردن محتوا */
             align-items: center;
+            overflow: hidden; /* جلوگیری از اسکرول اضافی */
         }
 
-        /* استایل برای محتوای اصلی */
         #scene-container {
             width: 80%;
             height: 60vh; /* 60% از ارتفاع صفحه */
