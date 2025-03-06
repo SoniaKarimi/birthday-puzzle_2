@@ -5,10 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Birthday Puzzle</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
     <style>
         body { text-align: center; background-color: #111; color: white; }
         canvas { display: block; margin: auto; }
         #inputBox { display: none; margin-top: 10px; }
+        #heartCanvas { display: none; margin: auto; width: 200px; height: 200px; background-color: transparent; }
     </style>
 </head>
 <body>
@@ -17,8 +19,10 @@
     <p id="equation">(20 - 5) * 2 + 1995 = ?</p>
     <input type="text" id="answer" placeholder="جواب را وارد کنید">
     <button onclick="checkAnswer()">بررسی</button>
-    <audio id="birthdaySong" src="15.mp3"></audio> <!-- مسیر فایل آهنگ -->
-    
+    <audio id="birthdaySong" src="15.mp3"></audio>
+    <canvas id="heartCanvas"></canvas>
+    <h2 id="loveText" style="display:none;">I Love You ❤️</h2>
+
     <script>
         let scene = new THREE.Scene();
         let camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
@@ -42,25 +46,52 @@
 
         function checkAnswer() {
             let answer = document.getElementById("answer").value;
-            console.log("Entered answer: ", answer);  // چاپ جواب وارد شده
             if (answer == "2005") {
                 document.getElementById("birthdaySong").play();
                 alert("تبریک! 🎉 آهنگ در حال پخش است!");
+                setTimeout(showHeart, 26000); // بعد از 26 ثانیه قلب را نمایش دهد
             } else {
                 alert("جواب نادرست است. دوباره امتحان کن!");
             }
         }
 
-        // اضافه کردن رویداد برای فشردن Enter
-        document.getElementById("answer").onkeypress = function(event) {
-            if (event.key === "Enter") {
-                event.preventDefault();  // جلوگیری از ارسال فرم
-                checkAnswer();  // اجرای تابع بررسی جواب
-            }
-        };
+        function showHeart() {
+            document.getElementById("scene-container").style.display = "none";
+            document.getElementById("equation").style.display = "none";
+            document.getElementById("answer").style.display = "none";
+            document.querySelector("button").style.display = "none";
+            document.getElementById("heartCanvas").style.display = "block";
+            drawHeart();
+        }
 
-        // اضافه کردن رویداد برای کلیک دکمه
-        document.querySelector("button").addEventListener("click", checkAnswer);
+        function drawHeart() {
+            let canvas = document.getElementById("heartCanvas");
+            let ctx = canvas.getContext("2d");
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.strokeStyle = "red";
+            ctx.lineWidth = 2;
+            
+            let scale = 4; // افزایش مقیاس برای بزرگتر شدن قلب
+            let offsetX = canvas.width / 2;
+            let offsetY = canvas.height / 2 + 10;
+            let t = -Math.PI;
+
+            function drawStep() {
+                if (t > Math.PI) {
+                    document.getElementById("loveText").style.display = "block";
+                    return;
+                }
+                let x = 23 * Math.pow(Math.sin(t), 3);
+                let y = 13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t);
+                if (t === -Math.PI) ctx.moveTo(offsetX + x * scale, offsetY - y * scale);
+                else ctx.lineTo(offsetX + x * scale, offsetY - y * scale);
+                ctx.stroke();
+                t += 0.05;
+                requestAnimationFrame(drawStep);
+            }
+            ctx.beginPath();
+            drawStep();
+        }
     </script>
 </body>
 </html>
