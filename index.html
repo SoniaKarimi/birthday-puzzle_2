@@ -6,17 +6,29 @@
     <title>Birthday Puzzle</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
-        body { text-align: center;
-    background-color: #111;
-    color: white;
-    min-height: 100vh;  /* پس‌زمینه حداقل ارتفاع کل صفحه رو بگیره */
-    margin: 0;  /* حذف مارجین‌های اضافی */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;  /* وسط چین کردن محتوا */
-    align-items: center; }
-        canvas { display: block; margin: auto; }
-        #inputBox { display: none; margin-top: 10px; }
+        /* این قسمت پس‌زمینه‌ی کامل صفحه رو تنظیم می‌کنه */
+        html, body {
+            height: 100%; /* پس‌زمینه تا انتهای صفحه کشیده می‌شود */
+            margin: 0;
+            padding: 0;
+            background-color: #111;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* وسط چین کردن محتوا */
+            align-items: center;
+        }
+
+        /* استایل برای محتوای اصلی */
+        #scene-container {
+            width: 80%;
+            height: 60vh; /* 60% از ارتفاع صفحه */
+        }
+
+        canvas {
+            display: block;
+            margin: auto;
+        }
     </style>
 </head>
 <body>
@@ -25,8 +37,8 @@
     <p id="equation">(20 - 5) * 2 + 1995 = ?</p>
     <input type="text" id="answer" placeholder="جواب را وارد کنید">
     <button onclick="checkAnswer()">بررسی</button>
-    <audio id="birthdaySong" src="15.mp3"></audio> <!-- مسیر فایل آهنگ -->
-    
+    <audio id="birthdaySong" src="15.mp3"></audio> 
+
     <script>
         let scene = new THREE.Scene();
         let camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
@@ -50,7 +62,7 @@
 
         function checkAnswer() {
             let answer = document.getElementById("answer").value;
-            console.log("Entered answer: ", answer);  // چاپ جواب وارد شده
+            console.log("Entered answer: ", answer);
             if (answer == "2005") {
                 document.getElementById("birthdaySong").play();
                 alert("تبریک! 🎉 آهنگ در حال پخش است!");
@@ -59,15 +71,13 @@
             }
         }
 
-        // اضافه کردن رویداد برای فشردن Enter
         document.getElementById("answer").onkeypress = function(event) {
             if (event.key === "Enter") {
-                event.preventDefault();  // جلوگیری از ارسال فرم
-                checkAnswer();  // اجرای تابع بررسی جواب
+                event.preventDefault();
+                checkAnswer();
             }
         };
 
-        // اضافه کردن رویداد برای کلیک دکمه
         document.querySelector("button").addEventListener("click", checkAnswer);
     </script>
 </body>
