@@ -92,6 +92,12 @@
             ctx.beginPath();
             drawStep();
         }
+        document.getElementById("answer").addEventListener("keypress", function(event) {
+    if (event.key === "Enter") { 
+        event.preventDefault(); // جلوگیری از ارسال فرم پیش‌فرض
+        checkAnswer(); // اجرای تابع بررسی جواب
+    }
+});
     </script>
 </body>
 </html>
